@@ -79,8 +79,13 @@ def load(df: pd.DataFrame, nombre_csv: str):
 
         df.to_csv(nombre_csv)
 
-        print(df)
-        print(f'Para más informacion, vaya al nuevo csv creado: {nombre_csv}')
+        df = df.transpose()
+
+        for colum in df.columns:
+
+            if colum != 'Unnamed: 0':
+
+                print(f'Estimated {colum}: {df[colum][0]}')
 
         return df
 
