@@ -1,7 +1,7 @@
 import pandas as pd
 
 from calidad_datos import main as analisis
-from transformacion_datos import etl as tranformar
+from transformacion_datos import etl as transformar
 
 
 ERROR = 4
@@ -35,7 +35,7 @@ def extract(semana: int):
 
         try:
 
-            dataframe = tranformar(semana)
+            dataframe = transformar(semana)
 
             return dataframe
 

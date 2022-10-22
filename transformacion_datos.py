@@ -1,12 +1,13 @@
-from ctypes.wintypes import SIZE
-from logging import exception
+from msilib.schema import File
 import pandas as pd
 import re
 
+from limpieza_datos import main as limpieza
+
 
 FICHEROS_CSV = [
-            'data_dictionary.csv', 'order_details.csv',
-            'orders.csv', 'pizza_types.csv', 'pizzas.csv']
+            'data_dictionary.csv', 'order_details_corrected.csv',
+            'orders_corrected.csv', 'pizza_types.csv', 'pizzas.csv']
 
 
 # Establecemos una proporcion de ingredientes para cada tamaño
@@ -15,10 +16,10 @@ SIZES = {'S': 1, 'M': 1.25, 'L': 1.5, 'XL': 2, 'XXL': 2.5}
 # Creamos todas las semanas del año
 
 # Empezaremos en el año anterior, que como mucho tomará 6 días
-ini = pd.Timestamp('26 Dec 2014')
+ini = pd.Timestamp('26 Dec 2015')
 
 # Finalizaremos el primer dia del año siguiente
-fin = pd.Timestamp('1 Jan 2016')
+fin = pd.Timestamp('1 Jan 2017')
 
 SEMANAS = pd.date_range(start=ini, end=fin, freq='W')
 
@@ -60,7 +61,7 @@ def filtrar_fechas(fecha: str):
 
     global FECHAS
 
-    fecha = pd.to_datetime(fecha, format='%d/%m/%Y')
+    fecha = pd.to_datetime(fecha, format='%Y/%m/%d')
 
     if fecha in FECHAS:
 
@@ -72,8 +73,9 @@ def filtrar_fechas(fecha: str):
 
 
 def extract(
-            tipos_pizza='pizza_types.csv', pedidos='order_details.csv',
-            pizzas='pizzas.csv', fechas='orders.csv'
+            tipos_pizza='pizza_types.csv',
+            pedidos='order_details_corrected.csv',
+            pizzas='pizzas.csv', fechas='orders_corrected.csv'
             ):
     '''
     Abre un archivo con descripciones de la pizzas (tipos_pizza),
@@ -81,10 +83,17 @@ def extract(
     cada pizza (pizzas) como tres dataframes
     '''
 
-    df_pizzas = pd.read_csv(tipos_pizza, sep=',', encoding='cp1252')
+    try:
+        df_fechas = pd.read_csv(fechas, sep=',', encoding='cp1252')
+        df_pedidos = pd.read_csv(pedidos, sep=',', encoding='cp1252')
+
+    except FileNotFoundError:
+        limpieza()
+
+    df_fechas = pd.read_csv(fechas, sep=',', encoding='cp1252')
     df_pedidos = pd.read_csv(pedidos, sep=',', encoding='cp1252')
     df_tipos = pd.read_csv(pizzas, sep=',', encoding='cp1252')
-    df_fechas = pd.read_csv(fechas, sep=',', encoding='cp1252')
+    df_pizzas = pd.read_csv(tipos_pizza, sep=',', encoding='cp1252')
 
     return df_pizzas, df_pedidos, df_tipos, df_fechas
 
