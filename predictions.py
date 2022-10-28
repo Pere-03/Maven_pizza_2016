@@ -1,10 +1,43 @@
 import pandas as pd
+import re
 
 from calidad_datos import main as analisis
 from transformacion_datos import etl as transformar
+from xml.etree.ElementTree import Element, ElementTree
 
 
 ERROR = 4
+
+
+def df_to_dict(dicc):
+
+    tmp = {}
+
+    for clave in dicc['Nº esperado'].keys():
+
+        ingrediente = dicc['Ingrediente'][clave]
+
+        ingrediente = re.sub(' ', '_', ingrediente)
+
+        if ingrediente == '‘Nduja_Salami':
+            ingrediente = 'Nduja_Salami'
+
+        tmp[ingrediente] = dicc['Nº esperado'][clave]
+
+    return tmp
+
+
+def dict_to_xml(tag, d):
+
+    elem = Element(tag)
+
+    for key, val in d.items():
+
+        child = Element(key)
+        child.text = str(val)
+        elem.append(child)
+
+    return elem
 
 
 def aproximar_numero(numero: float):
@@ -61,7 +94,7 @@ def transform(dataframe: pd.DataFrame):
         df_ingredientes = df_ingredientes.apply(aproximar_numero)
 
         df_ingredientes = pd.DataFrame(df_ingredientes)
-        df_ingredientes = df_ingredientes.rename(columns={0: 'Nº esperado'})
+        df_ingredientes = df_ingredientes.rename(columns={'Unnamed: 0': 'Ingrediente', 0: 'Nº esperado'})
 
         return df_ingredientes
 
@@ -70,17 +103,28 @@ def transform(dataframe: pd.DataFrame):
         return False
 
 
-def load(df: pd.DataFrame, nombre_csv: str):
+def load(df: pd.DataFrame, nombre: str):
     '''
     Guardaremos los ingredientes a comprar en un csv
     De igual manera, los imprimiremos por pantalla
     '''
     if isinstance(df, pd.DataFrame):
 
-        df.to_csv(nombre_csv)
+        df.to_csv(nombre + '.csv')
 
         print(df)
-        print(f'Para más informacion, vaya al nuevo csv creado: {nombre_csv}')
+        print(f'Para más informacion, vaya a los siguientes archivos: {nombre}.csv o {nombre}.xlm')
+
+        df = pd.read_csv(nombre + '.csv')
+        df = df.rename(columns={'Unnamed: 0': 'Ingrediente'})
+        df = df.drop([0, 0], axis=0)
+        tmp = df.to_dict()
+
+        tmp = df_to_dict(tmp)
+
+        archivo = dict_to_xml('Ingrediente', tmp)
+
+        ElementTree(archivo).write(nombre + '.xml')
 
         return df
 
@@ -105,9 +149,9 @@ def main(semana=-1):
         except ValueError:
             semana = -1
 
-    nombre_csv = 'ingredientes_semana' + str(semana) + '.csv'
+    nombre = 'ingredientes_semana' + str(semana)
 
-    return load(transform(extract(semana)), nombre_csv)
+    return load(transform(extract(semana)), nombre)
 
 
 if __name__ == '__main__':
