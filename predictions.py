@@ -3,7 +3,7 @@ import re
 
 from calidad_datos import main as analisis
 from transformacion_datos import etl as transformar
-from xml.etree.ElementTree import Element, ElementTree
+from xml.etree.ElementTree import Element, ElementTree, SubElement
 
 
 ERROR = 4
@@ -31,11 +31,19 @@ def dict_to_xml(tag, d):
 
     elem = Element(tag)
 
+    pedidos = SubElement(elem, 'Pedidos')
+
+    ingredientes = SubElement(elem, 'Ingredientes')
+
     for key, val in d.items():
 
-        child = Element(key)
-        child.text = str(val)
-        elem.append(child)
+        if key != 'Pedidos':
+
+            child = SubElement(ingredientes, 'Ingrediente', name=key, cantidad=str(val))
+
+        else:
+
+            child = SubElement(pedidos, 'Pedidos', cantidad=str(val))
 
     return elem
 
@@ -117,12 +125,14 @@ def load(df: pd.DataFrame, nombre: str):
 
         df = pd.read_csv(nombre + '.csv')
         df = df.rename(columns={'Unnamed: 0': 'Ingrediente'})
-        df = df.drop([0, 0], axis=0)
+        # df = df.drop([0, 0], axis=0)
         tmp = df.to_dict()
 
         tmp = df_to_dict(tmp)
 
-        archivo = dict_to_xml('Ingrediente', tmp)
+        archivo = dict_to_xml(
+                                'Semana_' +
+                                re.sub('ingredientes_semana', '', nombre), tmp)
 
         ElementTree(archivo).write(nombre + '.xml')
 
