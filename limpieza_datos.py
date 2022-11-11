@@ -62,8 +62,8 @@ def extract(pedidos='order_details.csv', fechas='orders.csv'):
     '''
     Extrae los 2 csv erroneos
     '''
-    df_pedidos = pd.read_csv(pedidos, sep=';', encoding='cp1252')
-    df_fechas = pd.read_csv(fechas, sep=';', encoding='cp1252')
+    df_pedidos = pd.read_csv(f'./datasets/{pedidos}', sep=';', encoding='cp1252')
+    df_fechas = pd.read_csv(f'./datasets/{fechas}', sep=';', encoding='cp1252')
 
     return df_pedidos, df_fechas
 
@@ -97,8 +97,8 @@ def load(df_pedidos: pd.DataFrame, df_fechas: pd.DataFrame):
     Guardaremos ambos dataframes como un csv
     '''
 
-    df_pedidos.to_csv('order_details_corrected.csv')
-    df_fechas.to_csv('orders_corrected.csv')
+    df_pedidos.to_csv('./datasets/order_details_corrected.csv')
+    df_fechas.to_csv('./datasets/orders_corrected.csv')
 
     return df_pedidos, df_fechas
 

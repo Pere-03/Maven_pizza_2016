@@ -34,7 +34,7 @@ def extract(fichero: str, sep=',') -> pd.DataFrame:
     '''
     Estraemos fichero.csv como un Dataframe
     '''
-    dataframe = pd.read_csv(fichero, sep=sep, encoding='cp1252')
+    dataframe = pd.read_csv(f'./datasets/{fichero}', sep=sep, encoding='cp1252')
 
     return dataframe
 
@@ -68,10 +68,10 @@ def transform(df: pd.DataFrame, fichero: str, i: int) -> str:
 
     diccionario['Fichero_' + str(i)] = dicc
 
-    return mensaje
+    return mensaje, dicc
 
 
-def load(mensaje: str, fichero: str):
+def load(mensaje: str, diccionario: dict, fichero: str):
     '''
     Imprimimos mensaje en un fichero
     '''
@@ -82,7 +82,7 @@ def load(mensaje: str, fichero: str):
 
     ElementTree(archivo).write('analisis_datos.xml')
 
-    return
+    return diccionario
 
 
 def analisis_datos(ficheros: List[str], salida='analisis_datos.txt'):
@@ -95,6 +95,7 @@ def analisis_datos(ficheros: List[str], salida='analisis_datos.txt'):
     file = open(salida, 'w')
     file.close()
     i = 0
+    dicc = {}
 
     for fichero in ficheros:
         i += 1
@@ -103,9 +104,9 @@ def analisis_datos(ficheros: List[str], salida='analisis_datos.txt'):
         if fichero in ['order_details.csv', 'orders.csv']:
             sep = ';'
 
-        load(transform(extract(fichero, sep), fichero, i), salida)
+        dicc[f'Fichero_{i}'] = load(*transform(extract(fichero, sep), fichero, i), salida)
 
-    return
+    return dicc
 
 
 def main(ficheros=None):
@@ -119,11 +120,4 @@ def main(ficheros=None):
 
         ficheros = FICHEROS_CSV
 
-    analisis_datos(ficheros)
-
-    return
-
-
-if __name__ == '__main__':
-
-    main()
+    return analisis_datos(ficheros)

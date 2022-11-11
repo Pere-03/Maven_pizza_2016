@@ -83,16 +83,16 @@ def extract(
     '''
 
     try:
-        df_fechas = pd.read_csv(fechas, sep=',', encoding='cp1252')
-        df_pedidos = pd.read_csv(pedidos, sep=',', encoding='cp1252')
+        df_fechas = pd.read_csv(f'./datasets/{fechas}', sep=',', encoding='cp1252')
+        df_pedidos = pd.read_csv(f'./datasets/{pedidos}', sep=',', encoding='cp1252')
 
     except FileNotFoundError:
         limpieza()
 
-    df_fechas = pd.read_csv(fechas, sep=',', encoding='cp1252')
-    df_pedidos = pd.read_csv(pedidos, sep=',', encoding='cp1252')
-    df_tipos = pd.read_csv(pizzas, sep=',', encoding='cp1252')
-    df_pizzas = pd.read_csv(tipos_pizza, sep=',', encoding='cp1252')
+    df_fechas = pd.read_csv(f'./datasets/{fechas}', sep=',', encoding='cp1252')
+    df_pedidos = pd.read_csv(f'./datasets/{pedidos}', sep=',', encoding='cp1252')
+    df_tipos = pd.read_csv(f'./datasets/{pizzas}', sep=',', encoding='cp1252')
+    df_pizzas = pd.read_csv(f'./datasets/{tipos_pizza}', sep=',', encoding='cp1252')
 
     return df_pizzas, df_pedidos, df_tipos, df_fechas
 
@@ -208,7 +208,7 @@ def load(df: pd.DataFrame, nombre_csv: str):
     Guarda el dataframe como un csv
     '''
 
-    df.to_csv(nombre_csv)
+    df.to_csv(f'./datasets/{nombre_csv}')
 
     return df
 
