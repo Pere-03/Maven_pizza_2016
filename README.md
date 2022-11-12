@@ -4,7 +4,10 @@ Maven_pizza pero con datos erróneos.
 Haremos un filtrado de los datos antes de realizar el mismo proceso que en maven_pizza
 
 Para ello, hemos de ejecutar el archivo predictions.py
-Al ejecutarlo, generará un .csv, un .xml y un reporte .pdf
+Al ejecutarlo, generará un .csv, un .xml y un reporte formatos .pdf y .xlsx
+Los archivos resultantes de predictions estarán alojados en la carpeta conclusiones,
+las imágenes empleadas en la carpeta imágenes, y si se ha debido manipular algún .csv,
+este se guardará en la carpeta existente datasets
 
 De forma adicional se han creado dos ramas on distintos modos de ejecución.
 

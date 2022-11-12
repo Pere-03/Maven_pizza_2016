@@ -9,6 +9,7 @@ from calidad_datos import main as analisis
 from transformacion_datos import etl as transformar
 from xml.etree.ElementTree import Element, ElementTree, SubElement
 from reporte import crear_presentacion
+from plantilla_excel import make_excel
 
 
 ERROR = 4
@@ -255,14 +256,15 @@ def load(df: pd.DataFrame, df_pedidos: pd.DataFrame, dicc: dict, nombre: str):
 
         df.to_csv(f'./conclusiones/{nombre}.csv')
 
+        make_excel(df_pedidos, df, nombre)
+
         print(df)
         mensaje = f'Para más informacion, vaya a los siguientes archivos: '
-        mensaje += f'{nombre}.csv, {nombre}.xlm, {nombre}.pdf'
+        mensaje += f'{nombre}.csv, {nombre}.xlm, {nombre}.pdf, {nombre}.xlsx'
         print(mensaje)
 
         df = pd.read_csv(f'./conclusiones/{nombre}.csv')
         df = df.rename(columns={'Unnamed: 0': 'Ingrediente'})
-        # df = df.drop([0, 0], axis=0)
         tmp = df.to_dict()
 
         tmp = df_to_dict(tmp)

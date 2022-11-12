@@ -38,7 +38,7 @@ def revisar_pizzas(pizza):
         pizza = sub('0', 'o', pizza)
 
     if '3' in pizza:
-        pizza = sub('3', '3', pizza)
+        pizza = sub('3', 'e', pizza)
 
     return pizza
 
