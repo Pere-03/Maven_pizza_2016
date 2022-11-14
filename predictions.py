@@ -2,7 +2,6 @@ import pandas as pd
 import re
 import os
 import requests
-
 import plotly.graph_objects as go
 
 from calidad_datos import main as analisis
