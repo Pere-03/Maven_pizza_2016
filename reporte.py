@@ -63,6 +63,8 @@ def create_xml_presentation(semana):
     texto += 'será porque se ha pedido como poco una pizza. Esto sirve tanto para los pedidos vacíos, '
     texto += 'como para pedidos negativos (no existe política de reclamaciones en esta empresa).'
     texto += '\nEn cuanto a las fechas mal registradas, se ha decidido aceptar cualquier formato por esta vez. '
+    texto += 'Como no empleabamos las horas, y ante el tiempo invertido para los puntos anteriores, '
+    trxto += 'hemos decidio no emplear estos datos. '
     texto += 'No obstante, rogamos una mejora en ese aspecto, para poder situar mejor los pedidos en el tiempo.'
     texto += '\nPor último, nos sorprende haber visto nombres de pizzas erróneos. Hemos logrado "adivinar" '
     texto += 'La mayoria de ellas, pero no podemos seguir aceptando numeros o guiones en los nombres de las pizzas'
