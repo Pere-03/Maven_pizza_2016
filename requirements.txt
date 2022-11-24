@@ -3,3 +3,4 @@ lxml==4.9.1
 XlsxWriter==3.0.3
 reportlab==3.6.12
 plotly==5.11.0
+reportlab==3.6.12
