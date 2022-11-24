@@ -1,10 +1,5 @@
-#! /usr/bin/env python
-
-#takes an xml file of a certain form and creates a pdf file from it
-
 from reportlab.pdfgen import canvas
-import sys
-import xml.etree.ElementTree as ET
+
 from reportlab.lib.units import inch
 from reportlab.pdfbase.pdfmetrics import stringWidth
 from reportlab.lib import utils
@@ -24,8 +19,8 @@ IMAGEPATH = os.path.join(os.path.dirname(__file__),"./imagenes")
 def makeTitleSlide(c, company, logo, title, date, people, slidenum):
 	addLogo(c, logo, forTitle=True)
 	c.setFillGray(0.25)
-	c.rect(1*inch,9*inch,12*inch,.05*inch, fill=1)
-	c.rect(1*inch,1*inch,12*inch,.05*inch, fill=1)
+	c.rect(1*inch, 9*inch, 12*inch, .05*inch, fill=1)
+	c.rect(1*inch, 1*inch, 12*inch, .05*inch, fill=1)
 	c.setFillGray(0)
 	c.setFont(TITLE_FONT, TITLE_SIZE)
 	c.drawCentredString(7*inch, 5.5*inch, company)
