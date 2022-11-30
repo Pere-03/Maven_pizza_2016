@@ -21,24 +21,11 @@ def revisar_pizzas(pizza):
     Comprueba los fallos más comunes a la hora de
     escribir un pedido
     '''
-    separadores = ['-', ' ']
+    errores_comunes = {'-': '_', ' ': '_', '@': 'a', '0': 'o', '3': 'e'}
 
-    for separador in separadores:
-
-        if separador in pizza:
-
-            pizza = sub(separador, '_', pizza)
-
-    if '@' in pizza:
-
-        pizza = sub('@', 'a', pizza)
-
-    if '0' in pizza:
-
-        pizza = sub('0', 'o', pizza)
-
-    if '3' in pizza:
-        pizza = sub('3', 'e', pizza)
+    for key in errores_comunes.keys():
+        while key in pizza:
+            pizza = sub(key, errores_comunes[key], pizza)
 
     return pizza
 
