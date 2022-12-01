@@ -13,6 +13,7 @@ De forma adicional se han creado dos ramas on distintos modos de ejecución.
 
 Para ambas ramas, solo se realizará una ejecución sencilla: no se creará ningun archivo adicional aparte de los csv procesados,
 y un analisis de los datos en formato.txt
-En rama_docker se incluye un Dockerfile para crear una imagen y un contenedor que aloje todo el proceso
+
+En rama_docker se incluye un Dockerfile para crear una imagen y un contenedor que aloje todo el proceso. No obstante, no se guardarán los cambios del contenedor (para ello, ver el comando opcional en esta misma rama.
 
 En rama_dagster se da soporte a este orquestador para seguir todo el proceso
