@@ -9,4 +9,4 @@ En esta rama podemos crearnos una imagen y un contenedor de docker que ejecute e
 
 Para crear la imagen, hemos de ejecutar "docker build -t nombre_imagen ." en el directorio donde tengamos todos los archivos.
 
-Posteriormente, ejecutamos "docker run -it nombre_imagen"
+Posteriormente, ejecutamos "docker run -it --name nombre_contenedor -v tu_path_absoluto:/usr/src/app nombre_imagen"
