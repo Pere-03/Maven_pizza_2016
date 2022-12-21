@@ -8,8 +8,10 @@ def make_excel(df_pedidos: pd.DataFrame, df_ingredientes: pd.DataFrame, name):
                                             'Unnamed: 0': 'Ingrediente',
                                             0: 'Nº esperado'
                                             })
-
-    df_ingredientes = df_ingredientes.drop(['Unnamed: 0', 'Pedidos'])
+    try:
+        df_ingredientes = df_ingredientes.drop(['Unnamed: 0', 'Pedidos'])
+    except KeyError:
+        pass
 
     df_pedidos['Pizzas'] = df_pedidos[['pizza_type_id', 'size']].apply(
                                                             ' '.join, axis=1
